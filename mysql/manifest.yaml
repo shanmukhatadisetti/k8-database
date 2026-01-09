@@ -15,10 +15,10 @@ data:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongodb-headless
+  name: mysql-headless
   namespace: roboshop
   labels:
-    component: mongodb 
+    component: mysql 
     env: dev
     project: roboshop
 spec:
@@ -28,22 +28,22 @@ spec:
       targetPort: 3306
   clusterIP: None
   selector:
-    component: mongodb 
+    component: mysql 
     env: dev
     project: roboshop
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongodb-svc
+  name: mysql-svc
   namespace: roboshop
   labels:
-    component: mongodb 
+    component: mysql 
     env: dev
     project: roboshop
 spec:
   selector:
-    component: mongodb 
+    component: mysql 
     env: dev
     project: roboshop
   ports:
@@ -54,35 +54,35 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mongodb
+  name: mysql
   namespace: roboshop
 spec:
   selector:
     matchLabels:
-      component: mongodb 
+      component: mysql 
       env: dev
       project: roboshop
-  serviceName: "mongodb-headless"
+  serviceName: "mysql-headless"
   replicas: 3 # by default is 1
   template:
     metadata:
       labels:
-        component: mongodb 
+        component: mysql 
         env: dev
         project: roboshop # has to match .spec.selector.matchLabels
     spec:
       containers:
-      - name: mongodb
-        image: shanmukhatadisetti/mongodb:v1
+      - name: mysql
+        image: shanmukhatadisetti/mysql:v1
         envFrom:
           - secretRef:
               name: mysql
         volumeMounts:
-        - name: mongodb-pvc
+        - name: mysql-pvc
           mountPath: /var/lib/mysql
   volumeClaimTemplates:
   - metadata:
-      name: mongodb-pvc
+      name: mysql-pvc
     spec:
       accessModes: [ "ReadWriteOnce" ]
       storageClassName: "roboshop-ebs"
