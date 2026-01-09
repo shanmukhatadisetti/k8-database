@@ -9,8 +9,9 @@ metadata:
     project: roboshop
 spec:
   ports:
-  - port: 80
-    name: web
+    - protocol: TCP 
+      port: 6379
+      targetPort: 6379
   clusterIP: None
   selector:
     component: redis 
@@ -33,8 +34,8 @@ spec:
     project: roboshop
   ports:
     - protocol: TCP 
-      port: 80
-      targetPort: 80
+      port: 6379
+      targetPort: 6379
 ---
 apiVersion: apps/v1
 kind: StatefulSet
