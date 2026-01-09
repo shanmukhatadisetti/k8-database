@@ -24,8 +24,8 @@ metadata:
 spec:
   ports:
     - protocol: TCP 
-      port: 27017   
-      targetPort: 27017
+      port: 3306   
+      targetPort: 3306
   clusterIP: None
   selector:
     component: mongodb 
@@ -48,8 +48,8 @@ spec:
     project: roboshop
   ports:
     - protocol: TCP 
-      port: 27017   
-      targetPort: 27017
+      port: 3306   
+      targetPort: 3306
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -79,7 +79,7 @@ spec:
               name: mysql
         volumeMounts:
         - name: mongodb-pvc
-          mountPath: /data/db
+          mountPath: /var/lib/mysql
   volumeClaimTemplates:
   - metadata:
       name: mongodb-pvc
